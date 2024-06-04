@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int RES(const char *input_file, const char *output_file) {
+    FILE *input_fp = fopen(input_file, "r");
+    FILE *output_fp = fopen(output_file, "w");
+
+    if (input_fp == NULL || output_fp == NULL) {
+        printf("Error opening files.\n");
+        return 1;
+    }
+
+    char word[100];  
+    int first_word = 1;  
+
+    while (fscanf(input_fp, "%s", word) != EOF) {
+        if (!first_word) {
+            fprintf(output_fp, " ");
+        } else {
+            first_word = 0;
+        }
+        fprintf(output_fp, "%s", word);
+    }
+
+    fclose(input_fp);
+    fclose(output_fp);
+    return 0;
+}
+
+int main() {
+    const char *input_file = "input.txt";
+    const char *output_file = "output.txt";
+
+    if (RES(input_file, output_file) == 0) {
+        printf("Extra spaces removed and saved to '%s'.\n", output_file);
+    }
+
+    return 0;
+}
